@@ -1,17 +1,18 @@
 from django.shortcuts import render
 from django.shortcuts import render,redirect
 from django.http import HttpResponse
-from .models import Room,Topic
+from .models import Room,Topic,Message
 from .forms import RoomForm
 from django.contrib.auth.models import User
 from django.contrib import messages
 from django.contrib.auth import authenticate,login,logout
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.forms import UserCreationForm
 
 def home(request):
     return render(request,'base/home.html')
 
-@login_required(login_url='Home')
+
 def rooms_view(request):
     q = request.GET.get('q') if request.GET.get('q') != None else ''
     topics = Topic.objects.all()
@@ -27,13 +28,15 @@ def rooms_view(request):
     context =  {"rooms": rooms,'topics' :topics,'room_count' : room_count}
     return render(request, 'base/room.html',context)
 
-@login_required(login_url='Home')
+
 def room(request,id):
 
     selected_room = Room.objects.filter(id = id)
+    all_messages = Message.objects.all()
+    participants = selected_room[0].participants.all()
 
     if selected_room:
-        context = {'room': selected_room[0]}
+        context = {'room': selected_room[0],'all_messages' : all_messages,'participants':participants}
     
         return render(request, 'base/iroom.html', context)
     else:
@@ -80,6 +83,7 @@ def delete_room(request,pk):
 
 
 def login_page(request):
+
     if request.method == 'POST':
         username = request.POST.get('username')
         password = request.POST.get('password')
@@ -98,13 +102,33 @@ def login_page(request):
         else:
             messages.error(request,"Username and password are wrong.")
 
-    context = {}
+    context = {"login" : "Done"}
     return render(request,'base/login_register.html',context)
 
 @login_required(login_url='Home')
 def logout_user(request):
+    
     try:
         logout(request)
     except Exception:
         messages.error("Something ent Wrong!")
     return redirect("Home")
+
+def register_user(request):
+    form = UserCreationForm()
+    context = {"form" : form}
+    return render(request,'base/login_register.html',context)
+
+@login_required(login_url="Home")
+def create_message(request,pk):
+    room = Room.objects.get(id = pk)
+    context = {"room" : room}
+    print(request.user)
+    print(room.host)
+    if request.method == 'POST':
+        print(request.POST.get('message_body'))
+        message = Message.objects.create(user = request.user,room = room,body = request.POST.get('message_body'))
+        message.save()
+        return redirect(f'http://127.0.0.1:8000/room/{room.id}/')
+
+    return render(request,'base/iroom.html',context)

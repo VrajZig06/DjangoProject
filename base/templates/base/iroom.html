@@ -1,8 +1,53 @@
 {% extends 'main.html' %} 
 
 
+
+
+
 {% block content %}
-    <h1>Admin : {{room.host}}</h1>
-    <h2>Room Name : {{ room.name }}</h2>
+
+    <style>
+        .chat-container{
+            display: grid;
+            grid-template-columns: 3fr 1fr;
+        }
+    </style>
+
+    <div class="chat-container">
+        <div>
+            <h1>Admin : {{room.host}}</h1>
+            <h2>Room Name : {{ room.name }}</h2>
+            <p>{{ room.description }}</p>
+
+            <div class="conversation">
+                    {% for message in all_messages %}
+                    <div style="border: 2px solid black; width:30vw">
+                        <span>@{{ message.user }}  <span style="color: rgb(49, 18, 228);">  {{ message.createdAt | timesince }} Ago</span></span>
+                        <p>{{ message.body }}</p>
+                    </div>
+                    {% endfor %}
+                    <br>
+                {% if request.user.is_authenticated and request.user == room.host %}
+                    <form action="{% url 'createMessage' room.id %}" method="POST">
+                        {% csrf_token %}
+                        <input style="width: 20vw; height:2 0px" type="text" name="message_body" placeholder="Please Type your Message Here...">
+                        <input type="submit" value="Send">
+                    </form>
+                </div>
+                {% endif %}
+        </div>
+
+        {% if request.user.is_authenticated %}
+            <div>
+                <h1>Participants</h1>
+                <ul>
+                    {% for participant in participants %}
+                        <li style="color: blue;"><h3>@{{ participant.username}}</h3></li>
+                    {% endfor %}
+                </ul>
+            </div>
+        {% endif %}
+        
+    </div>
 
 {% endblock %}

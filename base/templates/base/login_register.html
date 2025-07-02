@@ -11,19 +11,32 @@
             </ul>   
         {% endif %}
     </div>
-    <div>
-        <form action="{% url 'login' %}" method="POST">
-            {% csrf_token %}
-            <hr>
-            <h1>Login</h1>
-            <label for="uname">Username</label>
-            <input type="text" id="uname" name='username' placeholder="Enter username here">
-            <br><br>
-            <label for="pass">Password</label>
-            <input type="password" name='password' id="pass"  placeholder="Enter Password here">
-            <br><br>
-            <input type="submit" value="Login">
-        </form>
-    </div>
+    {% if login == 'Done' %}
+        <div>
+            <form action="{% url 'login' %}" method="POST">
+                {% csrf_token %}
+                <hr>
+                <h1>Login</h1>
+                <label for="uname">Username</label>
+                <input type="text" id="uname" name='username' placeholder="Enter username here">
+                <br><br>
+                <label for="pass">Password</label>
+                <input type="password" name='password' id="pass"  placeholder="Enter Password here">
+                <br><br>
+                <input type="submit" value="Login">
+            </form>
+            <br>
+            <a href="{% url 'register' %}"> Create account</a>
+        </div>
+    {% else %}  
+        <div>
+            <form action="">
+                {{form.as_p}}
+                <input type="submit" value="Register">
+            </form>
+            <br>
+            <a href="{% url 'login' %}">Already have Account?</a>
+        </div>
+    {% endif %}
 
 {% endblock %}
