@@ -16,6 +16,10 @@ def home(request):
 def rooms_view(request):
     q = request.GET.get('q') if request.GET.get('q') != None else ''
     topics = Topic.objects.all()
+    recent_messages = Message.objects.all()[0:6]
+
+    if q != "":
+        recent_messages = Message.objects.filter(room__topic__name=q)[0:6]
 
     if q:
         rooms = Room.objects.filter(topic__name__contains = q)
@@ -25,19 +29,16 @@ def rooms_view(request):
         room_count = rooms.count()
     
 
-    context =  {"rooms": rooms,'topics' :topics,'room_count' : room_count}
+    context =  {"rooms": rooms,'topics' :topics,'room_count' : room_count,'recent_messages':recent_messages}
     return render(request, 'base/room.html',context)
 
 
 def room(request,id):
-
-    selected_room = Room.objects.filter(id = id)
-    all_messages = Message.objects.all()
-    participants = selected_room[0].participants.all()
-
-    if selected_room:
-        context = {'room': selected_room[0],'all_messages' : all_messages,'participants':participants}
-    
+    room = Room.objects.get(id=id)
+    all_messages = room.message_set.all()
+    participants = room.participants.all()
+    context = {'room': room,'all_messages' : all_messages,'participants':participants}
+    if room:
         return render(request, 'base/iroom.html', context)
     else:
         return HttpResponse("Room not found", status=404)
@@ -56,7 +57,6 @@ def create_room(request):
 @login_required(login_url='Home')
 def update_room(request,pk):
     room = Room.objects.get(id=pk)
-    print(room)
     form = RoomForm(instance=room)
 
     if request.user != room.host:
@@ -87,8 +87,6 @@ def login_page(request):
     if request.method == 'POST':
         username = request.POST.get('username')
         password = request.POST.get('password')
-        print(username)
-        print(password)
         try:
             user = User.objects.get(username = username)
             print(user)
@@ -116,6 +114,16 @@ def logout_user(request):
 
 def register_user(request):
     form = UserCreationForm()
+    if request.method == 'POST':
+        try:
+            form = UserCreationForm(request.POST)
+            if form.is_valid():
+                user = form.save(commit=False)
+                user.save()
+                return redirect('login')
+        except Exception:
+            messages.error(request,"Registration Issues")
+        
     context = {"form" : form}
     return render(request,'base/login_register.html',context)
 
@@ -123,12 +131,33 @@ def register_user(request):
 def create_message(request,pk):
     room = Room.objects.get(id = pk)
     context = {"room" : room}
-    print(request.user)
-    print(room.host)
+    room.participants.add(room.host)
     if request.method == 'POST':
         print(request.POST.get('message_body'))
         message = Message.objects.create(user = request.user,room = room,body = request.POST.get('message_body'))
         message.save()
-        return redirect(f'http://127.0.0.1:8000/room/{room.id}/')
+        room.participants.add(request.user)
+        return redirect('Room',id=room.id)
 
     return render(request,'base/iroom.html',context)
+
+@login_required(login_url="Home")
+def delete_message(request,pk):
+    message = Message.objects.get(id=pk)
+    room = message.room
+    if message.user != request.user:
+        return HttpResponse("You are not allow to Delete this message.")
+    
+    message.delete()
+    return redirect("Room",id = room.id)
+
+def user_profile(request,pk):
+    print(pk)
+    user = User.objects.get(id=pk)
+    print(user)
+    context = {"user" : user}
+    if not user:
+        return HttpResponse("User not found.")
+    
+    return render(request,'base/userProfile.html',context)
+
