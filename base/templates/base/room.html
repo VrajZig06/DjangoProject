@@ -1,17 +1,10 @@
 {% extends 'main.html' %} 
 
-
 {% block content %}
 
-    <style>
-        .home-container{
-            display: grid ;
-            grid-template-columns: 1fr 2fr 1fr;
-        }
-    </style>
-    <form request="GET" action="{% url 'Rooms' %}">
+    <form class="cardSearch mb-2" request="GET" action="{% url 'Rooms' %}">
       <input type="text" name="q" id="" placeholder="Enter Topic Name" />
-      <input type="submit" value="Search">
+      <input class="create-btn" type="submit" value="Search">
     </form>
     <div class="home-container">
         <div>
@@ -19,9 +12,8 @@
         </div>
 
         <div>   
-   
                 {% if user.is_authenticated %}
-                    <a href="{% url 'createRoom' %}">Create Room</a>
+                <b><a class="create-btn" href="{% url 'createRoom' %}">Create Room</a></b>
                 {% endif %}
             
                 <div>

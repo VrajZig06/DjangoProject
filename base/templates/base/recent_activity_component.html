@@ -1,18 +1,25 @@
+<div class="recent-activity">
 <h2>Recent Activity</h2>
-{% for message in recent_messages %}
-<div style="background-color: bisque">
-  <span
-    ><b>@{{ message.user }}</b>
-    <span style="color: green">
-      {{ message.createdAt|timesince}} Ago</span
-    ></span
-  >
-  <br />
-  <small><b>Replied To : </b>{{ message.room }}</small>
-  <p><b>Message</b> : {{ message.body }}</p>
-  <hr />
-  {% if message.user == request.user %}
-  <a style="color: red" href="{% url 'deleteMessage' message.id %}">Delete</a>
-  {% endif %}
+{% if recent_messages %}
+  {% for message in recent_messages %}
+  <div class="card mb-2" style="display: flex; flex-direction: column; gap: 10px;">
+    <span>
+      <b>@<a href="{% url 'profile' message.user %}">{{ message.user }}</a></b>
+      <span style="color: green;float:right">
+        {{ message.createdAt|timesince}} Ago</span>
+    </span>
+    <br />
+    <small><b>Replied To : </b>{{ message.room }}</small>
+    <p><b>Message</b> : {{ message.body }}</p>
+    <hr />
+    {% if message.user == request.user %}
+    <b><a class="delete-btn" href="{% url 'deleteMessage' message.id %}">Delete</a></b>
+    {% endif %}
+  </div>
+  {% endfor %}
+{% else %}
+  <div class="card text-center">
+    <p>No recent Activity for This Topic...</p>
+  </div>
+{% endif %}
 </div>
-{% endfor %}

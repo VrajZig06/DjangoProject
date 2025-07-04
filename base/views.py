@@ -152,10 +152,10 @@ def delete_message(request,pk):
     return redirect("Room",id = room.id)
 
 def user_profile(request,pk):
-    print(pk)
-    user = User.objects.get(id=pk)
-    print(user)
-    context = {"user" : user}
+    user = User.objects.get(username=pk)
+    joined_rooms = Room.objects.filter(host__username=pk)
+    count_room = len(joined_rooms)
+    context = {"user" : user,'joined_rooms':joined_rooms,"count_room":count_room}
     if not user:
         return HttpResponse("User not found.")
     

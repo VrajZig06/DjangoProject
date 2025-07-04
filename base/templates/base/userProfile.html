@@ -1,0 +1,32 @@
+{% extends 'main.html' %}
+
+{% block content %}
+
+    <h1 class="text-center">Username : {{ user.username }}</h1>
+    <h2 class="text-center">Joined Rooms</h2>
+    <hr>
+    <div class="room-container">
+        <div></div>
+        <div>
+            {% if count_room > 0 %}
+                {% for room in joined_rooms %}
+                <div class="card mb-2">
+                    <h3>Room Name : <a href="{% url 'Room' room.id %}">{{ room.name }}</a> <span style="color: red;float:right">{{room.createdAt|timesince }} Ago</span></h3>
+                    {% if room.description %}
+                        <p>Description : {{ room.description }}</p>
+                    {% else %}
+                        <p>Description : N/A</p>
+                    {% endif %}
+                    {% if room.host == request.user %}
+                        <a class="delete-btn" href="{% url 'deleteRoom' room.id %}">Delete Room</a>
+                        <a class="edit-btn" href="{% url 'updateRoom' room.id %}">Edit Room</a>
+                    {% endif %}
+                </div>
+                {% endfor %}
+            {% else %}
+                <h3 class="text-center">No Rooms Joined yet.</h3>
+            {% endif %}
+        </div>
+        <div></div>
+    </div>
+{% endblock %}

@@ -1,16 +1,19 @@
-{% for room in rooms %}
-<div style="border: 1px solid black; margin: 10px">
-  {% if request.user.is_authenticated %}
-  <div style="margin-bottom: 10px">
-    {% if request.user == room.host %}
-    <a href="{% url 'updateRoom' room.id %}">Edit Room</a>
-    <a href="{% url 'deleteRoom' room.id %}">Delete Room</a>
+{% if rooms %}
+  {% for room in rooms %}
+  <div class="card mb-2">
+    {% if request.user.is_authenticated %}
+    <div class="mb-2">
+    </div>
     {% endif %}
+    <span>@<a href="{% url 'profile' room.host.username %}">{{ room.host.username }}</a></span>
+    <h5><a href="{% url 'Room' room.id %}">{{ room.name }}</a></h5>
+    <p>{{room.description}}</p>
+    <p>Topic name : {{room.topic}}</p>
   </div>
-  {% endif %}
-  <span>@{{room.host.username}}</span>
-  <h5><a href="{% url 'Room' room.id %}">{{ room.name }}</a></h5>
-  <p>{{room.description}}</p>
-  <p>Topic name : {{room.topic}}</p>
-</div>
-{% endfor %}
+  {% endfor %}
+
+{% else %}
+  <div class="card text-center">
+    <p>No Rooms for current Topic...</p>
+  </div>
+{% endif %}

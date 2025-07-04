@@ -1,0 +1,356 @@
+/* Modern Realistic Community App CSS */
+
+body {
+  background: linear-gradient(120deg, #f0f4f8 0%, #e9eafc 100%);
+  font-family: 'Segoe UI', 'Roboto', Arial, sans-serif;
+  color: #22223b;
+  margin: 0;
+  padding: 0;
+  min-height: 100vh;
+}
+
+h1, h2, h3, h4, h5 {
+  font-weight: 700;
+  color: #22223b;
+  margin-top: 0.5em;
+  margin-bottom: 0.5em;
+}
+
+.nav-item {
+  margin: 0 16px;
+  color: #3a5a40;
+  font-size: 1.1em;
+  transition: color 0.2s;
+}
+.nav-item:hover {
+  color: #588157;
+}
+
+a {
+  text-decoration: none;
+  color: #3a5a40;
+  font-weight: 500;
+  transition: color 0.2s;
+}
+a:hover {
+  color: #588157;
+}
+
+img {
+  display: block;
+  margin: 24px auto;
+  max-width: 100%;
+  height: auto;
+  border-radius: 16px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.07);
+}
+
+hr {
+  border: none;
+  border-top: 1px solid #b7b7a4;
+  margin: 24px 0;
+}
+
+form {
+  background: #fff;
+  padding: 24px;
+  border-radius: 12px;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+  max-width: 400px;
+  margin: 24px auto;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+input[type="text"], input[type="password"], textarea {
+  padding: 10px;
+  border: 1px solid #b7b7a4;
+  border-radius: 6px;
+  font-size: 1em;
+  background: #f8f9fa;
+  transition: border 0.2s;
+}
+input[type="text"]:focus, input[type="password"]:focus, textarea:focus {
+  border: 1.5px solid #588157;
+  outline: none;
+}
+input[type="submit"], button {
+  background: #588157;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  padding: 10px 18px;
+  font-size: 1em;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+input[type="submit"]:hover, button:hover {
+  background: #3a5a40;
+}
+
+.card, .room-card, .message-card {
+  background: #fff;
+  border-radius: 10px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.07);
+  padding: 18px 20px;
+  margin: 16px 0;
+}
+
+.cardSearch {
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Layout containers */
+.home-container, .room-container, .chat-container {
+  display: grid;
+  gap: 32px;
+  margin: 32px auto;
+  max-width: 1200px;
+}
+.home-container {
+  grid-template-columns: 1fr 2fr 1fr;
+}
+.room-container {
+  grid-template-columns: 1fr 3fr 1fr;
+}
+.chat-container {
+  grid-template-columns: 3fr 1fr;
+}
+
+/* Recent activity, topics, feed */
+.recent-activity, .topics-list, .feed-list {
+  background: #f8f9fa;
+  border-radius: 10px;
+  padding: 16px 18px;
+  margin-bottom: 18px;
+}
+
+.messages {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 16px 0;
+}
+.messages li {
+  background: #ffe5ec;
+  color: #6d6875;
+  border-radius: 6px;
+  padding: 8px 12px;
+  margin-bottom: 8px;
+}
+
+/* Buttons for actions */
+.action-btn, .delete-btn, .edit-btn, .create-btn {
+  display: inline-block;
+  margin: 4px 6px 4px 0;
+  padding: 7px 14px;
+  border-radius: 6px;
+  font-size: 0.98em;
+  font-weight: 500;
+  text-align: center;
+  text-decoration: none;
+  transition: background 0.2s, color 0.2s;
+}
+.create-btn {
+  background: #588157;
+  color: #fff;
+}
+.create-btn:hover {
+  background: #3a5a40;
+}
+.delete-btn {
+  background: #d90429;
+  color: #fff;
+}
+.delete-btn:hover {
+  background: #9d0208;
+}
+.edit-btn {
+  background: #f9c74f;
+  color: #22223b;
+}
+.edit-btn:hover {
+  background: #f9844a;
+  color: #fff;
+}
+
+/* Profile and participants */
+.participants-list {
+  list-style: none;
+  padding: 0;
+}
+.participants-list li {
+  padding: 6px 0;
+  color: #3a5a40;
+  font-weight: 500;
+}
+
+/* Utility classes */
+.text-center {
+  text-align: center;
+}
+.mt-2 { margin-top: 16px; }
+.mb-2 { margin-bottom: 16px; }
+.p-2 { padding: 16px; }
+.rounded { border-radius: 10px; }
+.shadow { box-shadow: 0 2px 8px rgba(0,0,0,0.07); }
+
+/* --- Animations & Visual Enhancements --- */
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: none; }
+}
+
+@keyframes gradientMove {
+  0% { background-position: 0% 50%; }
+  100% { background-position: 100% 50%; }
+}
+
+.card, .room-card, .message-card, .topics-list, .recent-activity {
+  animation: fadeIn 0.7s cubic-bezier(.39,.575,.565,1) both;
+  transition: box-shadow 0.25s, transform 0.2s;
+}
+.card:hover, .room-card:hover, .message-card:hover {
+  box-shadow: 0 8px 24px rgba(88,129,87,0.13), 0 1.5px 6px rgba(0,0,0,0.07);
+  transform: translateY(-4px) scale(1.025);
+  z-index: 2;
+}
+
+input[type="submit"], button, .create-btn, .delete-btn, .edit-btn {
+  transition: background 0.2s, color 0.2s, transform 0.15s;
+}
+input[type="submit"]:active, button:active, .create-btn:active, .delete-btn:active, .edit-btn:active {
+  transform: scale(0.97);
+  filter: brightness(0.95);
+}
+
+a, .nav-item {
+  transition: color 0.2s, text-shadow 0.2s;
+}
+a:hover, .nav-item:hover {
+  text-shadow: 0 2px 8px #b7e4c7;
+}
+
+/* Animated Navbar/Header */
+body > h1, .navbar, header {
+  background: linear-gradient(90deg, #588157, #43aa8b, #4d908e, #577590);
+  background-size: 300% 300%;
+  animation: gradientMove 8s linear infinite alternate;
+  color: #fff !important;
+  padding: 18px 0 12px 0;
+  text-align: center;
+  border-radius: 0 0 18px 18px;
+  box-shadow: 0 2px 12px rgba(88,129,87,0.08);
+  margin-bottom: 18px;
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 10px;
+  background: #e9eafc;
+}
+::-webkit-scrollbar-thumb {
+  background: #b7b7a4;
+  border-radius: 8px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #588157;
+}
+
+/* Utility Animation Classes */
+.fade-in { animation: fadeIn 0.7s both; }
+.scale-up { animation: scaleUp 0.4s both; }
+@keyframes scaleUp {
+  from { transform: scale(0.95); opacity: 0.7; }
+  to { transform: scale(1); opacity: 1; }
+}
+
+/* Responsive Tweaks */
+@media (max-width: 600px) {
+  .card, .room-card, .message-card, .topics-list, .recent-activity {
+    padding: 10px 6px;
+    font-size: 0.98em;
+  }
+  body > h1, .navbar, header {
+    font-size: 1.2em;
+    padding: 10px 0 8px 0;
+  }
+}
+
+/* --- Extra Attractive Animations --- */
+
+/* Pulse for buttons */
+@keyframes pulse {
+  0% { box-shadow: 0 0 0 0 rgba(88,129,87,0.18); }
+  70% { box-shadow: 0 0 0 10px rgba(88,129,87,0); }
+  100% { box-shadow: 0 0 0 0 rgba(88,129,87,0); }
+}
+.create-btn:hover, .edit-btn:hover, .delete-btn:hover, input[type="submit"]:hover, button:hover {
+  animation: pulse 0.7s;
+}
+
+/* Slide-in for cards/side panels */
+@keyframes slideInLeft {
+  from { opacity: 0; transform: translateX(-40px); }
+  to { opacity: 1; transform: none; }
+}
+@keyframes slideInRight {
+  from { opacity: 0; transform: translateX(40px); }
+  to { opacity: 1; transform: none; }
+}
+.slide-in-left { animation: slideInLeft 0.7s cubic-bezier(.39,.575,.565,1) both; }
+.slide-in-right { animation: slideInRight 0.7s cubic-bezier(.39,.575,.565,1) both; }
+
+/* Wiggle for attention */
+@keyframes wiggle {
+  0%, 100% { transform: rotate(-2deg); }
+  20%, 60% { transform: rotate(4deg); }
+  40%, 80% { transform: rotate(-4deg); }
+}
+.wiggle { animation: wiggle 0.5s 2; }
+
+/* Ripple effect for buttons (pseudo-element) */
+.ripple {
+  position: relative;
+  overflow: hidden;
+}
+.ripple:after {
+  content: '';
+  position: absolute;
+  left: 50%; top: 50%;
+  width: 5px; height: 5px;
+  background: rgba(88,129,87,0.25);
+  border-radius: 50%;
+  transform: scale(1, 1) translate(-50%, -50%);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.4s, transform 0.4s;
+}
+.ripple:active:after {
+  width: 120px; height: 120px;
+  opacity: 1;
+  transition: 0s;
+  transform: scale(1.5, 1.5) translate(-50%, -50%);
+}
+
+/* Bounce-in for modals/popups */
+@keyframes bounceIn {
+  0% { opacity: 0; transform: scale(0.7); }
+  60% { opacity: 1; transform: scale(1.05); }
+  80% { transform: scale(0.95); }
+  100% { transform: scale(1); }
+}
+.bounce-in { animation: bounceIn 0.6s both; }
+
+/* Utility: delay for staggered animations */
+.delay-1 { animation-delay: 0.1s; }
+.delay-2 { animation-delay: 0.2s; }
+.delay-3 { animation-delay: 0.3s; }
+.delay-4 { animation-delay: 0.4s; }
+
+/* End Extra Attractive Animations */

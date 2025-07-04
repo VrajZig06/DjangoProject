@@ -1,19 +1,22 @@
+{% load static %}
+
 <!DOCTYPE html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
+    <title>DEV-Community</title>
     <style>
       .nav-item{
         margin: 0px 20px;
       }
     </style>
+    <link rel="stylesheet" type="text/css" media="screen" href="{% static 'styles/main.css' %}">
   </head>
   <body>
-      <h1>Navbar</h1>
+      <h1><a href="{% url 'Home' %}">DEV-Community</a></h1>
       {% if request.user.is_authenticated %}
-      <h3>Welcome {{ request.user }}</h3>
+      <h3>Welcome, {{ request.user }}</h3>
       {% endif %}
       <a class="nav-item" href="{% url 'Home' %}"> Home </a>
       <a class="nav-item" href="{% url 'Rooms' %}">Rooms</a>

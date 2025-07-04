@@ -1,3 +1,4 @@
+<div class="topics-list mb-2">
 <h3>Browse Topics</h3>
 <h4>{{room_count}} Available Rooms</h4>
 <hr />
@@ -5,3 +6,4 @@
 {% for topic in topics %}
 <p><a href="{% url 'Rooms' %}?q={{topic.name}}"> {{ topic.name}}</a></p>
 {% endfor %}
+</div>
